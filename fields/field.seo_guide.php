@@ -1,11 +1,4 @@
 <?php
-/**
- * (c) 2011 Twisted - www.twisted.nl
- * Author: Giel Berkers
- * Date: 15-8-11
- * Time: 17:11
- */
-
 Class fieldSeo_guide extends Field
 {
     public function __construct(&$parent)
