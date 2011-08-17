@@ -29,7 +29,7 @@ This extension gives absolutely no guarantee to higher search results. It only a
 shows which keywords (and combinations) on your site are most-used and will probably be detected as 'important keywords'
 for the different search engines out there.
 
-Having said that, how any search engine exactly works since the search
+Having said that, how any search engine exactly works is a bit of a mystery, since the search
 algorithms used by companies as Google, Yahoo and Microsoft are known to be one of the biggest secrets in the universe.
 However, this extensions gives you an insight on how the content of your website could be interpreted when analyzed by
 an automated process.
@@ -47,3 +47,6 @@ The algorithm that this extensions used is fairly simple. It works by the follow
    - Next 45%: Check if all keywords occur in the top-5 of Words and Importance
    - Last 30%: Check if the saturation of keywords is not too high. Too much keywords could be seen as spam by some search engines. Also, it keeps the text human-readable. 3% is best. More than 6% results in a penalty.
 
+## You can help! ##
+
+If you're a SEO expert and have some pointers on how the algorithm could be adjusted to be more helpfull, please let it know! Then we can make it a more accurate extension.
