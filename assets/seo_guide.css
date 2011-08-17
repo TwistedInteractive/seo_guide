@@ -1,0 +1,9 @@
+div.field-seo_guide dl.importance { height: 260px; }
+div.field-seo_guide dl.general, div.field-seo_guide dl.analysis { height: 80px; }
+div.field-seo_guide a.help { /*float: right;*/ }
+div.field-seo_guide dt { width: 30%; float: left; border-top: 1px solid #cbccba; }
+div.field-seo_guide dd { width: 70%; float: left; border-top: 1px solid #cbccba; }
+div.field-seo_guide .first { border: none; }
+div.field-seo_guide li ol { margin: 0; margin-left: 15px; list-style-type: decimal; min-height: 16px; }
+div.field-seo_guide li em { font-style: normal; color: #a9aa9a; float: right; font-size: 10px; }
+div.field-seo_guide h4 { cursor: pointer; }
