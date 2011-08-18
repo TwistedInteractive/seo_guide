@@ -36,9 +36,11 @@ jQuery(function($) {
         return false;
     });
 
-    seoGuideAnalyzeText();
-    seoGuideIntervalID = setInterval('seoGuideAnalyzeText()', 1000);
-
+    if(seoGuideFields.length != 0)
+    {
+        seoGuideAnalyzeText();
+        seoGuideIntervalID = setInterval('seoGuideAnalyzeText()', 1000);
+    }
 });
 
 function seoGuideAnalyzeText() {
