@@ -2,24 +2,6 @@
 
 Class extension_seo_guide extends Extension
 {
-    /**
-     * About this extension
-     * @return array
-     */
-    public function about()
-    {
-        return array(
-            'name' => 'SEO Guide',
-            'version' => '1.0',
-            'release-date' => '2011-08-15',
-            'author' => array(
-                'name' => 'Giel Berkers',
-                'website' => 'http://www.gielberkers.com',
-                'email' => 'info@gielberkers.com'
-            )
-        );
-    }
-
 
     /**
      * Return an array with delegates
@@ -39,8 +21,8 @@ Class extension_seo_guide extends Extension
 
     public function addScriptToHead($context)
     {
-        $context['parent']->Page->addScriptToHead(URL.'/extensions/seo_guide/assets/seo_guide.js');
-        $context['parent']->Page->addStyleSheetToHead(URL.'/extensions/seo_guide/assets/seo_guide.css');
+		Administration::instance()->Page->addScriptToHead(URL.'/extensions/seo_guide/assets/seo_guide.js');
+		Administration::instance()->Page->addStyleSheetToHead(URL.'/extensions/seo_guide/assets/seo_guide.css');
     }
 
     /**

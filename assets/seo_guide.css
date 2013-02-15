@@ -1,3 +1,5 @@
+div.field-seo_guide ol { margin: 0; list-style-type: none; }
+div.field-seo_guide .content { background: #fff !important; }
 div.field-seo_guide dl.importance { height: 260px; }
 div.field-seo_guide dl.general, div.field-seo_guide dl.analysis { height: 80px; }
 div.field-seo_guide a.help { /*float: right;*/ }

@@ -6,11 +6,12 @@
     -->
 
     <xsl:template match="/">
-        <ol class="collapsible duplicator">
+		<div class="frame collapsible">
+        <ol>
             <li class="instance field-input expanded">
-                <h4 class="header">
-                    <span>General</span>
-                </h4>
+				<header>
+					<h4>General</h4>
+				</header>
                 <div class="content">
                     <dl class="general">
                         <dt class="first">Total words:</dt>
@@ -26,17 +27,17 @@
 
                         </dd>
                     </dl>
-                    <xsl:if test="data/value = ''">
+<!--                    <xsl:if test="data/value = ''">
                         <p>
                             You have not entered any <a href="#" class="keywords">keywords</a> for this content.
                         </p>
-                    </xsl:if>
+                    </xsl:if>-->
                 </div>
             </li>
             <li class="instance field-input collapsed">
-                <h4 class="header">
-                    <span>Words and Importance</span>
-                </h4>
+				<header>
+					<h4>Words and Importance</h4>
+				</header>
                 <div class="content">
                     <dl class="importance">
                         <dt class="first">Most important words:</dt>
@@ -73,9 +74,9 @@
                 </div>
             </li>
             <li class="instance field-input collapsed">
-                <h4 class="header">
-                    <span>SEO Analysis</span>
-                </h4>
+				<header>
+					<h4>SEO Analysis</h4>
+				</header>
                 <div class="content">
                     <dl class="analysis">
                         <dt class="first">Keywords usage:</dt>
@@ -96,10 +97,10 @@
                     </dl>
                 </div>
             </li>
-            <li class="keywords instance field-input collapsed">
-                <h4 class="header">
-                    <span>Your keywords</span>
-                </h4>
+<!--            <li class="keywords instance field-input collapsed">
+				<header>
+					<h4>Your keywords</h4>
+				</header>
                 <div class="content">
                     <p>
                         Please enter some keywords which are relevant for this content. Use space to seperate the
@@ -110,8 +111,10 @@
                     <br />
                     <br />
                 </div>
-            </li>
+            </li>-->
+
         </ol>
+		</div>
         <!-- Variables: -->
         <script type="text/javascript">
             <xsl:for-each select="data/fields/field">

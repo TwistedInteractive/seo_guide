@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension id="seo_guide" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>SEO Guide</name>
+	<description>A SEO Guide for Symphony Content Editors</description>
+	<repo type="github">https://github.com/kanduvisla/seo_guide</repo>
+    <types>
+        <type>Content</type>
+    </types>
+	<authors>
+		<author>
+			<name github="kanduvisla" symphony="kanduvisla">Giel Berkers</name>
+            <email>info@gielberkers.com</email>
+            <website>http://www.gielberkers.com</website>
+		</author>
+	</authors>
+	<releases>
+		<release version="1.1" date="2013-02-15" min="2.3"/>
+		<release version="1.0" date="2011-08-17" min="2.2.x"/>
+	</releases>
+</extension>

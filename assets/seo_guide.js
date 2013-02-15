@@ -11,10 +11,13 @@ var seoGuideIntervalID;
 var seoKeywords = [];
 
 jQuery(function($) {
-    $("div.field-seo_guide").symphonyCollapsible({
+    // TODO: nog werkend maken:
+/*
+    $("div.field-seo_guide ol").symphonyCollapsible({
         items:   '.instance',
-        handles: '.header'
+        handles: 'header:first'
     });
+*/
 
     // Make references to the objects that are listened upon (for optimization, use jQuery as less as possible):
     for (var i = 0; i < seoGuideFields.length; i++) {
@@ -153,7 +156,7 @@ function seoGuideAnalyzeText() {
 
     // Do the analysis:
     // First, check if all keywords are at least used in the text. This is the first 25% of SEO ranking.
-    // Second, check if the used keywords are at least in the top 5 of each dictionary. This is 45% of the SEO ranking (3 × 15), 15 = 1,2,3,4,5
+    // Second, check if the used keywords are at least in the top 5 of each dictionary. This is 45% of the SEO ranking (3 ï¿½ 15), 15 = 1,2,3,4,5
     // Third, check if the keywords do not ocupy more then 3% of the total content. This is the last 30%. 2% for each keyword. If the keyword occurs more than 3% in the content, it is considered a penalty.
 
     var percent        = 0;
@@ -193,8 +196,6 @@ function seoGuideAnalyzeText() {
     } else if(spamPercent > 0.06) {
         saturationBonus = -((spamPercent * 100) - 6);
     }
-
-    console.log(saturationBonus);
 
     percent += keyWordsInDictionary;
     percent += saturationBonus;

@@ -1,16 +1,16 @@
 <?php
 Class fieldSeo_guide extends Field
 {
-    public function __construct(&$parent)
+    public function __construct()
     {
-        parent::__construct($parent);
+		parent::__construct();
         $this->_name = __('SEO Guide');
         $this->set('location', 'sidebar');
     }
 
     public function displaySettingsPanel(&$wrapper, $errors = null)
     {
-        parent::displaySettingsPanel($wrapper, $errors);
+		parent::displaySettingsPanel($wrapper, $errors);
         $div = new XMLElement('div', NULL, array('class' => 'group'));
 
         // $label = Widget::Label(__('Fields'));
@@ -19,9 +19,7 @@ Class fieldSeo_guide extends Field
         if ($section_id == false) {
             $label->appendChild(new XMLElement('p', __('Please save the section first, then choose from a list of fields'), array('class' => 'info')));
         } else {
-            $fm = new FieldManager($this);
-            $options = array();
-            $fields = $fm->fetch(0, $section_id);
+            $fields = FieldManager::fetch(null, $section_id);
             $usedFields = $this->getFields($section_id);
             $values = array();
             foreach ($usedFields as $usedField)
@@ -32,22 +30,19 @@ Class fieldSeo_guide extends Field
             foreach ($fields as $field)
             {
                 if ($field->get('type') != 'seo_guide') {
-                    /*
-                {
-                    $options[] = array($field->get('id'), false, $field->get('label'));
-                }*/
-                    $bg = $i % 2 == 0 ? ' background: #cbccba;' : '';
+
                     $i++;
 
-                    $row = new XMLElement('div', '', array('style' => 'margin-bottom: 0; clear: both; height: 22px;' . $bg));
+                    $row = new XMLElement('div', '', array('style' => 'margin-bottom: 0; clear: both; height: 22px;'));
                     $attr = array('style' => 'position: relative; top: 2px; margin-top: 2px; margin-left: 2px;');
-                    // if($field->get('field_id') == )
+
                     if (array_key_exists($field->get('id'), $values)) {
                         $attr['checked'] = 'checked';
                         $p = $values[$field->get('id')];
                     } else {
                         $p = false;
                     }
+
                     $row->appendChild(Widget::Input('fields[' . $this->get('sortorder') . '][fields][]', $field->get('id'), 'checkbox', $attr));
                     $row->setValue($field->get('label'), false);
 
@@ -80,30 +75,27 @@ Class fieldSeo_guide extends Field
 
     public function commit()
     {
-        if (!parent::commit()) return false;
+		$ok = parent::commit();
+        if (!$ok) return false;
 
-        $id = $this->get('id');
-
-        if ($id === false) return false;
-
-        $fields = array();
-        $fields['field_id'] = $id;
-
-        Symphony::Database()->query("DELETE FROM `tbl_fields_seo_guide` WHERE `field_id` = '$id' LIMIT 1");
-        $ok = Symphony::Database()->insert($fields, 'tbl_fields_seo_guide');
+		FieldManager::saveSettings($this->get('id'), array());
 
         if ($ok != false) {
             Symphony::Database()->query("DELETE FROM `tbl_seo_guide_fields` WHERE `section_id` = " . $this->get('parent_section'));
             $priority = $this->get('priority');
             $i = 0;
-            foreach ($this->get('fields') as $field_id)
-            {
-                Symphony::Database()->insert(array(
-                                                  'section_id' => $this->get('parent_section'),
-                                                  'field_id' => $field_id,
-                                                  'priority' => $priority[$i]), 'tbl_seo_guide_fields');
-                $i++;
-            }
+
+			if($fields = $this->get('fields'))
+			{
+				foreach ($fields as $field_id)
+				{
+					Symphony::Database()->insert(array(
+						'section_id' => $this->get('parent_section'),
+						'field_id' => $field_id,
+						'priority' => $priority[$i]), 'tbl_seo_guide_fields');
+					$i++;
+				}
+			}
         }
 
         return $ok;
