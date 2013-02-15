@@ -34,6 +34,11 @@ algorithms used by companies as Google, Yahoo and Microsoft are known to be one 
 However, this extensions gives you an insight on how the content of your website could be interpreted when analyzed by
 an automated process.
 
+## Implementation
+
+Add the field to your section and select the fields in which the content will be stored to analyse.
+Also add a tag list field and give it the handle 'seo-keywords'. This field will be used to calculate the keyword usage.
+
 ## The used algorithm ##
 
 The algorithm that this extensions used is fairly simple. It works by the following rules:
@@ -43,7 +48,8 @@ The algorithm that this extensions used is fairly simple. It works by the follow
  - Order these words and show the 5 words / combinations which occur the most.
  - For CKEditor: words in h1 get a +3 bonus, words in h2 get a +2 bonus, words in h3 get a +1 bonus.
  - Bold and italic texts get a +1 bonus
- - Headers, Bold and italic texts are matched against the keywords.
+ - Headers, Bold and italic texts are matched against the keywords and be given a bonus if used.
+ - The lack of use of headers, bold and italics or over-use of keywords will result in a penalty.
  - The SEO strength is determined by the following:
    - First 25%: Check if all keywords are used at least once.
    - Next 45%: Check if all keywords occur in the top-5 of Words and Importance
