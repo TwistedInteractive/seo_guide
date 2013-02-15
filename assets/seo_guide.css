@@ -1,10 +1,19 @@
 div.field-seo_guide ol { margin: 0; list-style-type: none; }
-div.field-seo_guide .content { background: #fff !important; }
+div.field-seo_guide .content { background: #fff !important; overflow: hidden; }
 div.field-seo_guide dl.importance { height: 260px; }
 div.field-seo_guide dl.general, div.field-seo_guide dl.analysis { height: 80px; }
-div.field-seo_guide a.help { /*float: right;*/ }
-div.field-seo_guide dt { width: 30%; float: left; border-top: 1px solid #cbccba; }
-div.field-seo_guide dd { width: 70%; float: left; border-top: 1px solid #cbccba; }
+div.field-seo_guide a.help {  }
+div.field-seo_guide dt { width: 40%; float: left; border-top: 1px solid #cbccba; clear: left; }
+div.field-seo_guide dd { width: 60%; float: left; border-top: 1px solid #cbccba; }
+div.field-seo_guide dd span { display: block; }
+div.field-seo_guide .warning { color: #f00; }
+div.field-seo_guide .warning:after {
+	content: attr(title);
+	display: block;
+	font-size: 10px;
+	color: #888;
+	clear: left;
+}
 div.field-seo_guide .first { border: none; }
 div.field-seo_guide li ol { margin: 0; margin-left: 15px; list-style-type: decimal; min-height: 16px; }
 div.field-seo_guide li em { font-style: normal; color: #a9aa9a; float: right; font-size: 10px; }

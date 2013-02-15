@@ -71,6 +71,8 @@ Class fieldSeo_guide extends Field
         $div->appendChild($label);
 
         $wrapper->appendChild($div);
+
+		$this->appendShowColumnCheckbox($wrapper);
     }
 
     public function commit()
@@ -106,7 +108,8 @@ Class fieldSeo_guide extends Field
         $label = Widget::Label($this->get('label'));
         $fields = $this->getFields($this->get('parent_section'));
 
-        $xmlData = new XMLElement('data');
+        // Fields to watch:
+		$xmlData = new XMLElement('data');
         $xmlFields = new XMLElement('fields');
         foreach ($fields as $field)
         {
@@ -114,7 +117,27 @@ Class fieldSeo_guide extends Field
         }
         $xmlData->appendChild($xmlFields);
 
+		// SEO Keywords-fields
+		$seoKeywordsField = FieldManager::fetch(null, $this->get('parent_section'), 'ASC', 'sortorder', 'taglist', null, ' AND `element_name` = \'seo-keywords\'');
+		$seoKeywords = new XMLElement('seo-keywords');
+		if(is_array($seoKeywordsField) && count($seoKeywordsField) == 1)
+		{
+			$seoKeywordsField = array_shift($seoKeywordsField);
+			$seoKeywordsFieldId = $seoKeywordsField->get('id');
+			$seoKeywords->setAttribute('id', $seoKeywordsFieldId);
+			/*$entry = EntryManager::fetch($entry_id);
+			$keyWordsData = $entry[0]->getData($seoKeywordsFieldId);
+			foreach($keyWordsData['value'] as $value)
+			{
+				$seoKeywords->appendChild(new XMLElement('keyword', $value));
+			}*/
+		}
+		$xmlData->appendChild($seoKeywords);
+
+		// Current value:
         $xmlData->appendChild(new XMLElement('value', $data['value']));
+
+		// Element name:
         $xmlData->appendChild(new XMLElement('element-name', $this->get('element_name')));
 
         $xslt = new XsltProcess($xmlData->generate(), file_get_contents(EXTENSIONS . '/seo_guide/assets/seo_guide.xsl'));
@@ -143,5 +166,28 @@ Class fieldSeo_guide extends Field
     {
         return Symphony::Database()->fetch('SELECT `field_id`, `priority` FROM `tbl_seo_guide_fields` WHERE `section_id` = ' . $section_id . ';');
     }
+
+	public function prepareTableValue($data, XMLElement $link = null, $entry_id = null) {
+		if(isset($data['value']))
+		{
+			$val = intval($data['value']);
+			if($val < 30) {
+				$color = 'f00';
+			} elseif($val < 40) {
+				$color = 'f80';
+			} elseif($val < 50) {
+				$color = 'c80';
+			} elseif($val < 60) {
+				$color = 'ca0';
+			} elseif($val < 70) {
+				$color = '9c0';
+			} else {
+				// superb!
+				$color = '2c0';
+			}
+			return '<span style="color: #'.$color.';">'.$val.'%</span>';
+		}
+		return false;
+	}
 
 }

@@ -41,7 +41,9 @@ The algorithm that this extensions used is fairly simple. It works by the follow
  - Count all unique words. Also count all unique word-combinations (of two and three words).
  - Give the unique words a score based on how many times they occur in the text. The score is based on the priority given to the field. Priority 1 is +1, priority 5 is +5.
  - Order these words and show the 5 words / combinations which occur the most.
- - For CKEditor: words in h1 get a +2 bonus, words in h2 get a +1 bonus.
+ - For CKEditor: words in h1 get a +3 bonus, words in h2 get a +2 bonus, words in h3 get a +1 bonus.
+ - Bold and italic texts get a +1 bonus
+ - Headers, Bold and italic texts are matched against the keywords.
  - The SEO strength is determined by the following:
    - First 25%: Check if all keywords are used at least once.
    - Next 45%: Check if all keywords occur in the top-5 of Words and Importance
