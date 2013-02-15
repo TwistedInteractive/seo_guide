@@ -22,8 +22,10 @@
                         <dd id="seo-strength" title="Check if all keywords are used, if they occur in the top-5 and if they are used not too often.">0%</dd>
                         <dt>Execution time:</dt>
                         <dd id="execution-time"></dd>
-						<dt>H1 Count:</dt>
-						<dd id="h1-count" title="Use one, but not more than one h1"></dd>
+						<xsl:if test="data/ignore-h1 = 'No'">
+							<dt>H1 Count:</dt>
+							<dd id="h1-count" title="Use one, but not more than one h1"></dd>
+						</xsl:if>
 						<dt>H2 Count:</dt>
 						<dd id="h2-count" title="Seperate your text with multiple headers"></dd>
 						<dt>H3 Count:</dt>
@@ -136,6 +138,10 @@
 					var seoKeywordsFieldId = false;
 				</xsl:otherwise>
 			</xsl:choose>
+			var seoIgnoreH1 = <xsl:choose>
+				<xsl:when test="data/ignore-h1 = 'Yes'">true</xsl:when>
+				<xsl:otherwise>false</xsl:otherwise>
+			</xsl:choose>;
         </script>
     </xsl:template>
 

@@ -72,7 +72,19 @@ Class fieldSeo_guide extends Field
 
         $wrapper->appendChild($div);
 
-		$this->appendShowColumnCheckbox($wrapper);
+		$div = new XMLElement('div', NULL, array('class' => 'group'));
+		$label = Widget::Label();
+		$label->setAttribute('class', 'column');
+		$input = Widget::Input('fields['.$this->get('sortorder').'][ignore_h1]', 'yes', 'checkbox');
+		if($this->get('ignore_h1') == 1) $input->setAttribute('checked', 'checked');
+		$label->setValue(__('%s Ignore H1', array($input->generate())));
+		$div->appendChild($label);
+
+		$this->appendShowColumnCheckbox($div);
+
+		$wrapper->appendChild($div);
+
+
     }
 
     public function commit()
@@ -80,7 +92,9 @@ Class fieldSeo_guide extends Field
 		$ok = parent::commit();
         if (!$ok) return false;
 
-		FieldManager::saveSettings($this->get('id'), array());
+		FieldManager::saveSettings($this->get('id'), array(
+			'ignore_h1' => ($this->get('ignore_h1') != false ? 1 : 0)
+		));
 
         if ($ok != false) {
             Symphony::Database()->query("DELETE FROM `tbl_seo_guide_fields` WHERE `section_id` = " . $this->get('parent_section'));
@@ -139,6 +153,9 @@ Class fieldSeo_guide extends Field
 
 		// Element name:
         $xmlData->appendChild(new XMLElement('element-name', $this->get('element_name')));
+
+		// Ignore H1:
+		$xmlData->appendChild(new XMLElement('ignore-h1', ($this->get('ignore_h1') == 1 ? 'Yes' : 'No')));
 
         $xslt = new XsltProcess($xmlData->generate(), file_get_contents(EXTENSIONS . '/seo_guide/assets/seo_guide.xsl'));
         $label->appendChild(new XMLElement('div', $xslt->process()));

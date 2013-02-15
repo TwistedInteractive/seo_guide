@@ -34,6 +34,7 @@ Class extension_seo_guide extends Extension
         Symphony::Database()->query("CREATE TABLE IF NOT EXISTS `tbl_fields_seo_guide` (
             `id` int(11) unsigned NOT NULL auto_increment,
             `field_id` int(11) unsigned NOT NULL,
+            `ignore_h1` int(1),
             PRIMARY KEY  (`id`),
             KEY `field_id` (`field_id`)
         )");

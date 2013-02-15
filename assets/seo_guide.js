@@ -278,17 +278,20 @@ function seoGuideAnalyzeText() {
     var endTime = new Date();
     var diff    = endTime.getTime() - startTime.getTime();
     document.getElementById('execution-time').textContent = diff + ' ms';
-    document.getElementById('h1-count').textContent = h1Count;
     document.getElementById('h2-count').textContent = h2Count;
     document.getElementById('h3-count').textContent = h3Count;
     document.getElementById('bold-count').textContent = strongCount;
     document.getElementById('italic-count').textContent = italicCount;
 
-    if(h1Count != 1) {
-        document.getElementById('h1-count').className = 'warning';
-        extraPenalty += 5;
-    } else {
-        document.getElementById('h1-count').className = '';
+    if(seoIgnoreH1 == false)
+    {
+        document.getElementById('h1-count').textContent = h1Count;
+        if(h1Count != 1) {
+            document.getElementById('h1-count').className = 'warning';
+            extraPenalty += 5;
+        } else {
+            document.getElementById('h1-count').className = '';
+        }
     }
 
     if(h2Count == 0 && count > 150) {
