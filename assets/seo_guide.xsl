@@ -34,7 +34,8 @@
 						<dd id="bold-count" title="Use bold text to emphasize your most important content and/or keywords"></dd>
 						<dt>Italic Count:</dt>
 						<dd id="italic-count" title="Use italic text to emphasize your most important content"></dd>
-
+						<dt>Keyword Bonus:</dt>
+						<dd id="keyword-bonus" title="Try to use your keywords in headers, bold and italic texts"></dd>
                     </dl>
 <!--                    <xsl:if test="data/value = ''">
                         <p>
@@ -95,7 +96,7 @@
                         </dd>
                         <dt>Keywords importance:</dt>
                         <dd>
-                            <span id="keywords-importance"></span>
+                            <span id="keywords-importance" title="This is determined by how high you keywords are at 'Words and Importance'. Higher is better"></span>
                             <!--<a href="#" class="help" title="This is determined by how high you keywords are at 'Words and Importance'. Higher is better">?</a>-->
                         </dd>
                         <dt>Keywords saturation:</dt>

@@ -53,6 +53,7 @@ jQuery(function($) {
         seoGuideAnalyzeText();
         seoGuideIntervalID = setInterval('seoGuideAnalyzeText()', 1000);
     }
+    // setTimeout('seoGuideAnalyzeText()', 1000);
 });
 
 function seoGuideAnalyzeText() {
@@ -67,6 +68,7 @@ function seoGuideAnalyzeText() {
     var h3Count = 0;
     var strongCount = 0;
     var italicCount = 0;
+    var bonus = 0;
 
     for (var i = 0, j = seoGuideFields.length; i < j; i++) {
         var elem = seoGuideFields[i][2];
@@ -82,7 +84,9 @@ function seoGuideAnalyzeText() {
                 {
                     var editor = CKEDITOR.instances[instanceName];
                     var data = editor.getData().replace("\n", '');
-                    value = data.toLowerCase().replace(/<\S[^><]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\s+/g, ' ');
+                    // decode numeric entities:
+                    data = data.replace(/&#([^\s]*);/g, function(match, match2) {return String.fromCharCode(Number(match2));});
+                    value = data.toLowerCase().replace(/<\S[^><]*>/g, '').replace(/[^\-\w\s]|_/g, '').replace(/\s+/g, ' ');
                     // If words are in H1, they get a prio of +3
                     // If words are in H2, they get a prio of +2
                     // If words are in H3, they get a prio of +1
@@ -100,7 +104,7 @@ function seoGuideAnalyzeText() {
                         dictionary1 = appendDictionary(dictionary1, words, 3, 0);
                         dictionary2 = appendDictionary(dictionary2, words, 3, 2);
                         dictionary3 = appendDictionary(dictionary3, words, 3, 3);
-                        matchAgainstKeywords(text);
+                        bonus += matchAgainstKeywords(text);
                     }
                     for(var h in h2s)
                     {
@@ -110,7 +114,7 @@ function seoGuideAnalyzeText() {
                         dictionary1 = appendDictionary(dictionary1, words, 2, 0);
                         dictionary2 = appendDictionary(dictionary2, words, 2, 2);
                         dictionary3 = appendDictionary(dictionary3, words, 2, 3);
-                        matchAgainstKeywords(text);
+                        bonus += matchAgainstKeywords(text);
                     }
                     for(var h in h3s)
                     {
@@ -120,7 +124,7 @@ function seoGuideAnalyzeText() {
                         dictionary1 = appendDictionary(dictionary1, words, 1, 0);
                         dictionary2 = appendDictionary(dictionary2, words, 1, 2);
                         dictionary3 = appendDictionary(dictionary3, words, 1, 3);
-                        matchAgainstKeywords(text);
+                        bonus += matchAgainstKeywords(text);
                     }
                     for(var h in bolds)
                     {
@@ -130,7 +134,7 @@ function seoGuideAnalyzeText() {
                         dictionary1 = appendDictionary(dictionary1, words, 1, 0);
                         dictionary2 = appendDictionary(dictionary2, words, 1, 2);
                         dictionary3 = appendDictionary(dictionary3, words, 1, 3);
-                        matchAgainstKeywords(text);
+                        bonus += matchAgainstKeywords(text);
                     }
                     for(var h in italics)
                     {
@@ -140,7 +144,7 @@ function seoGuideAnalyzeText() {
                         dictionary1 = appendDictionary(dictionary1, words, 1, 0);
                         dictionary2 = appendDictionary(dictionary2, words, 1, 2);
                         dictionary3 = appendDictionary(dictionary3, words, 1, 3);
-                        matchAgainstKeywords(text);
+                        bonus += matchAgainstKeywords(text);
                     }
                     if(h1s != null) { h1Count += h1s.length; }
                     if(h2s != null) { h2Count += h2s.length; }
@@ -188,14 +192,14 @@ function seoGuideAnalyzeText() {
     for(var i = 0; i < 5; i++)
     {
         if(dic1[i] != undefined) {
-            html1 += '<li>' + dic1[i][0] + ' <em>(' + dic1[i][1] + ')</em></li>';
+            html1 += '<li>' + highLightKeywords(dic1[i][0]) + ' <em>(' + dic1[i][1] + ')</em></li>';
             if(in_array(dic1[i][0], seoKeywords))
             {
                 keyWordsInDictionary += (5-i);
             }
         }
         if(dic2[i] != undefined) {
-            html2 += '<li>' + dic2[i][0] + ' <em>(' + dic2[i][1] + ')</em></li>';
+            html2 += '<li>' + highLightKeywords(dic2[i][0]) + ' <em>(' + dic2[i][1] + ')</em></li>';
             if(in_array3(dic2[i][0], seoKeywords))
             {
                 keyWordsInDictionary += (5-i);
@@ -203,7 +207,7 @@ function seoGuideAnalyzeText() {
             }
         }
         if(dic3[i] != undefined) {
-            html3 += '<li>' + dic3[i][0] + ' <em>(' + dic3[i][1] + ')</em></li>';
+            html3 += '<li>' + highLightKeywords(dic3[i][0]) + ' <em>(' + dic3[i][1] + ')</em></li>';
             if(in_array3(dic3[i][0], seoKeywords))
             {
                 keyWordsInDictionary += (5-i);
@@ -322,6 +326,15 @@ function seoGuideAnalyzeText() {
         document.getElementById('italic-count').className = '';
     }
 
+    document.getElementById('keyword-bonus').textContent = bonus;
+    if(bonus == 0)
+    {
+        document.getElementById('keyword-bonus').className = 'warning';
+        extraPenalty += 3;
+    } else {
+        document.getElementById('keyword-bonus').className = '';
+    }
+
     percent += keyWordsInDictionary;
     percent += saturationBonus;
     if(percent < 0) { percent = 0; }
@@ -364,11 +377,15 @@ function appendDictionary(dictionary, words, prio, plus)
         var key = words[k];
         if(plus == 2) { key += ' ' + words[k + 1]; }
         if(plus == 3) { key += ' ' + words[k + 1] + ' ' + words[k + 2]; }
-        if (key != '') {
-            if (dictionary[key] == undefined) {
-                dictionary[key] = prio;
-            } else {
-                dictionary[key] += prio;
+        // Ignore words that are no longer than 2 characters:
+        if(key.length > 2)
+        {
+            if (key != '') {
+                if (dictionary[key] == undefined) {
+                    dictionary[key] = prio;
+                } else {
+                    dictionary[key] += prio;
+                }
             }
         }
     }
@@ -431,5 +448,26 @@ function in_array3 (needle, haystack) {
 
 function matchAgainstKeywords(needle)
 {
+    var words = needle.split(' ');
+    var bonus = 0;
+    for(var i in seoKeywords)
+    {
+        for(var j in words)
+        {
+            if(words[j] == seoKeywords[i])
+            {
+                bonus++;
+            }
+        }
+    }
+    return bonus;
+}
 
+function highLightKeywords(str)
+{
+    for(var i in seoKeywords)
+    {
+        str = str.replace(seoKeywords[i], '<strong>' + seoKeywords[i] + '</strong>');
+    }
+    return str;
 }
