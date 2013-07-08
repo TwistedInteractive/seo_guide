@@ -7,7 +7,10 @@
         <type>Content</type>
     </types>
 	<authors>
-		
+		<author>
+			<name github="TwistedInteractive">Twisted Interactive</name>
+			<website>http://www.twisted.nl</website>
+		</author>
 	</authors>
 	<releases>
 		<release version="1.1" date="2013-02-15" min="2.3"/>
